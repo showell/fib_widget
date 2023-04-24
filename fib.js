@@ -1,6 +1,8 @@
-const N = 9;
+const N = 25;
 
 var focus_on_diagonal = false;
+
+var fib_cache = {};
 
 function fib(n) {
     if (n == 1) {
@@ -9,7 +11,13 @@ function fib(n) {
     if (n == 0) {
         return 1;
     }
-    return fib(n-2) + fib(n-1);
+    if (fib_cache[n]) {
+        return fib_cache[n];
+    }
+
+    const result = fib(n-2) + fib(n-1);
+    fib_cache[n] = result;
+    return result;
 }
 
 // squares have integer locations that map to x/y zero-based coordinates
@@ -68,8 +76,8 @@ function draw_normal_square(td, loc) {
 function make_cell(loc) {
     const td = document.createElement("td");
     td.id = loc;
-    td.style.height = "50px";
-    td.style.width = "50px";
+    td.style.height = "40px";
+    td.style.width = "40px";
     td.style.border = "1px solid blue";
     td.style["text-align"] = "center";
     draw_normal_square(td, loc, {});
