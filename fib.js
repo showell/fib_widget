@@ -1,6 +1,6 @@
 const N = 25;
 
-var focus_on_diagonal = false;
+var use_fib = false;
 
 var fib_cache = {};
 
@@ -18,6 +18,10 @@ function fib(n) {
     const result = fib(n-2) + fib(n-1);
     fib_cache[n] = result;
     return result;
+}
+
+function geometric(n) {
+    return 2 ** n;
 }
 
 // squares have integer locations that map to x/y zero-based coordinates
@@ -41,17 +45,12 @@ function coords_string(loc) {
     const x = x_coord(loc);
     const y = y_coord(loc);
 
-    if (focus_on_diagonal) {
-        if (Math.abs(x - y) > 1) {
-            return "";
-        }
-    }
     const n = x + y;
-    if (focus_on_diagonal && (x >= y)) {
+    if (use_fib) {
         return bold(fib(n));
     }
     else {
-        return fib(n);
+        return bold(geometric(n));
     }
 }
 
@@ -123,7 +122,7 @@ function make_board() {
 }
 
 function reset_the_game() {
-    focus_on_diagonal = !focus_on_diagonal;
+    use_fib = !use_fib;
     redraw_board();
 }
 
