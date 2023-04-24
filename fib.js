@@ -21,7 +21,7 @@ function fib(n) {
 }
 
 function geometric(n) {
-    return 2 ** n;
+    return `r<sup>${n}</sup>`;
 }
 
 // squares have integer locations that map to x/y zero-based coordinates
@@ -37,20 +37,16 @@ function y_coord(loc) {
     return Math.floor(loc / N);
 }
 
-function bold(s) {
-    return "<b>" + s + "</b>";
-}
-
 function coords_string(loc) {
     const x = x_coord(loc);
     const y = y_coord(loc);
 
     const n = x + y;
     if (use_fib) {
-        return bold(fib(n));
+        return fib(n);
     }
     else {
-        return bold(geometric(n));
+        return geometric(n);
     }
 }
 
