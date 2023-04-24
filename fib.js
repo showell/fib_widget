@@ -89,14 +89,14 @@ function redraw_board() {
     });
 }
 
-function handle_square_click(td, loc) {
-    alert("TODO");
+function handle_square_click(loc) {
+    alert(loc);
     redraw_board();
 }
 
 function set_click_handler(td, loc) {
     td.onclick = () => {
-        handle_square_click(td, loc);
+        handle_square_click(loc);
     };
 }
 
