@@ -15,7 +15,7 @@ function fib(n) {
         return fib_cache[n];
     }
 
-    const result = fib(n-2) + fib(n-1);
+    const result = fib(n - 2) + fib(n - 1);
     fib_cache[n] = result;
     return result;
 }
@@ -44,8 +44,7 @@ function coords_string(loc) {
     const n = x + y;
     if (use_fib) {
         return fib(n);
-    }
-    else {
+    } else {
         return geometric(n);
     }
 }
