@@ -3,8 +3,11 @@ const N = 9;
 var focus_on_diagonal = false;
 
 function fib(n) {
-    if (n <= 1) {
-        return n;
+    if (n == 1) {
+        return 0;
+    }
+    if (n == 0) {
+        return 1;
     }
     return fib(n-2) + fib(n-1);
 }
