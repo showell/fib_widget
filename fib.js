@@ -58,7 +58,7 @@ function add_table_styles(table) {
 function draw_normal_square(td, loc) {
     const color = "white";
     td.style["background-color"] = color;
-    td.style["font-size"] = "80%";
+    td.style["font-size"] = "100%";
     td.innerHTML = coords_string(loc);
 }
 
