@@ -26,6 +26,9 @@ function geometric(n) {
 }
 
 function power2(n) {
+    if (n < 0) {
+        return `1 / ${2 ** -n}`;
+    }
     return `${2 ** n}`;
 }
 
