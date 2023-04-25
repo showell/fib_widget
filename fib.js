@@ -48,24 +48,12 @@ function fib(n) {
     return `${calc_fib(n)}`;
 }
 
-// squares have integer locations that map to x/y zero-based coordinates
-function integer_loc(x, y) {
-    return N * y + x;
+function make_loc(x, y) {
+    return {x : x, y: y, id: `${x},${y}`};
 }
 
-function x_coord(loc) {
-    return loc % N;
-}
-
-function y_coord(loc) {
-    return Math.floor(loc / N);
-}
-
-function coords_string(loc) {
-    const x = x_coord(loc);
-    const y = y_coord(loc);
-
-    const n = x + y;
+function square_contents(loc) {
+    const n = loc.x + loc.y;
 
     if (mode == "arithmetic") {
         return arithmetic(n);
@@ -78,12 +66,6 @@ function coords_string(loc) {
     }
 }
 
-function for_all_squares(f) {
-    for (var i = 0; i < N * N; ++i) {
-        f(i);
-    }
-}
-
 function add_table_styles(table) {
     table.style.border = "1px solid blue";
     table.style["border-collapse"] = "collapse";
@@ -93,12 +75,12 @@ function draw_normal_square(td, loc) {
     const color = "white";
     td.style["background-color"] = color;
     td.style["font-size"] = "100%";
-    td.innerHTML = coords_string(loc);
+    td.innerHTML = square_contents(loc);
 }
 
 function make_cell(loc) {
     const td = document.createElement("td");
-    td.id = loc;
+    td.id = loc.id;
     td.style.height = "40px";
     td.style.width = "40px";
     td.style.border = "1px solid blue";
@@ -107,15 +89,14 @@ function make_cell(loc) {
     return td;
 }
 
-function update_square(loc) {
-    const td = document.getElementById(loc);
-    draw_normal_square(td, loc);
-}
-
 function redraw_board() {
-    for_all_squares((loc) => {
-        update_square(loc);
-    });
+    for (var x = 0; x < N; ++x) {
+        for (var y = 0; y < N; ++y) {
+            const loc = make_loc(x, y);
+            const td = document.getElementById(loc.id);
+            draw_normal_square(td, loc);
+        }
+    }
 }
 
 function handle_square_click(loc) {
@@ -135,7 +116,7 @@ function make_board() {
     for (var y = 0; y < N; ++y) {
         const tr = document.createElement("tr");
         for (var x = 0; x < N; ++x) {
-            const loc = integer_loc(x, y);
+            const loc = make_loc(x, y);
             var td = make_cell(loc);
             set_click_handler(td, loc);
             tr.appendChild(td);
