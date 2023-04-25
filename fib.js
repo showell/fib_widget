@@ -58,8 +58,13 @@ function is_current_loc(loc) {
         return loc.x == current_loc.x + dx && loc.y == current_loc.y + dy;
     }
     if (mode == "fib") {
-        return is_current(0, 0) || is_current(0, 1) || is_current(1, 0) || is_current(1, 1);
-    } 
+        return (
+            is_current(0, 0) ||
+            is_current(0, 1) ||
+            is_current(1, 0) ||
+            is_current(1, 1)
+        );
+    }
     return is_current(0, 0);
 }
 
@@ -68,8 +73,13 @@ function is_x_axis_loc(loc) {
         return loc.x == current_loc.x + dx && loc.y == dy;
     }
     if (mode == "fib") {
-        return is_current(0, 0) || is_current(0, 1) || is_current(1, 0) || is_current(1, 1);
-    } 
+        return (
+            is_current(0, 0) ||
+            is_current(0, 1) ||
+            is_current(1, 0) ||
+            is_current(1, 1)
+        );
+    }
     return is_current(0, 0);
 }
 
@@ -78,8 +88,13 @@ function is_y_axis_loc(loc) {
         return loc.x == dx && loc.y == current_loc.y + dy;
     }
     if (mode == "fib") {
-        return is_current(0, 0) || is_current(0, 1) || is_current(1, 0) || is_current(1, 1);
-    } 
+        return (
+            is_current(0, 0) ||
+            is_current(0, 1) ||
+            is_current(1, 0) ||
+            is_current(1, 1)
+        );
+    }
     return is_current(0, 0);
 }
 
