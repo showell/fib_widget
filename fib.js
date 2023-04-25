@@ -90,12 +90,19 @@ function is_axis_loc(loc) {
     return loc.x == 0 || loc.y == 0;
 }
 
+function is_origin(loc) {
+    return loc.x == 0 && loc.y == 0;
+}
+
 function get_location_color(loc) {
     if (is_current_loc(loc)) {
         return "cyan";
     }
     if (is_intercept_loc(loc)) {
         return "lightblue";
+    }
+    if (is_origin(loc)) {
+        return "indianred";
     }
     if (is_axis_loc(loc)) {
         return "lightcoral";
