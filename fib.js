@@ -6,15 +6,29 @@ function toggle_mode() {
     if (mode == "arithmetic") {
         mode = "geometric";
     } else if (mode == "geometric") {
+        mode = "power2";
+    } else if (mode == "power2") {
         mode = "fib";
     } else {
         mode = "arithmetic";
     }
 }
 
+function arithmetic(n) {
+    return `${n}`;
+}
+
+function geometric(n) {
+    return `r<sup>${n}</sup>`;
+}
+
+function power2(n) {
+    return `${2 ** n}`;
+}
+
 var fib_cache = {};
 
-function fib(n) {
+function calc_fib(n) {
     if (n == 1) {
         return 0;
     }
@@ -25,17 +39,13 @@ function fib(n) {
         return fib_cache[n];
     }
 
-    const result = fib(n - 2) + fib(n - 1);
+    const result = calc_fib(n - 2) + calc_fib(n - 1);
     fib_cache[n] = result;
     return result;
 }
 
-function arithmetic(n) {
-    return n;
-}
-
-function geometric(n) {
-    return `r<sup>${n}</sup>`;
+function fib(n) {
+    return `${calc_fib(n)}`;
 }
 
 // squares have integer locations that map to x/y zero-based coordinates
@@ -61,6 +71,8 @@ function coords_string(loc) {
         return arithmetic(n);
     } else if (mode == "geometric") {
         return geometric(n);
+    } else if (mode == "power2") {
+        return power2(n);
     } else {
         return fib(n);
     }
