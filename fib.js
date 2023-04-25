@@ -98,12 +98,16 @@ function is_y_axis_loc(loc) {
     return is_current(0, 0);
 }
 
+function is_axis_loc(loc) {
+    return is_x_axis_loc(loc) || is_y_axis_loc(loc);
+}
+
 function get_location_color(loc) {
+    if (is_axis_loc(loc)) {
+        return "lightblue";
+    }
     if (is_current_loc(loc)) {
         return "cyan";
-    }
-    if (is_x_axis_loc(loc) || is_y_axis_loc(loc)) {
-        return "lightgreen";
     }
     return "white";
 }
