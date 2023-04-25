@@ -1,6 +1,14 @@
 const N = 25;
 
-var use_fib = false;
+var mode = "geometric";
+
+function toggle_mode() {
+    if (mode == "geometric") {
+        mode = "fib";
+    } else {
+        mode = "geometric";
+    }
+}
 
 var fib_cache = {};
 
@@ -42,10 +50,10 @@ function coords_string(loc) {
     const y = y_coord(loc);
 
     const n = x + y;
-    if (use_fib) {
-        return fib(n);
-    } else {
+    if (mode == "geometric") {
         return geometric(n);
+    } else {
+        return fib(n);
     }
 }
 
@@ -116,14 +124,14 @@ function make_board() {
     add_table_styles(table);
 }
 
-function reset_the_game() {
-    use_fib = !use_fib;
+function toggle() {
+    toggle_mode();
     redraw_board();
 }
 
 function set_reset_handler() {
-    const reset_button = document.getElementById("reset");
-    reset_button.onclick = reset_the_game;
+    const reset_button = document.getElementById("toggle");
+    reset_button.onclick = toggle;
 }
 
 make_board();
