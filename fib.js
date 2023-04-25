@@ -1,6 +1,7 @@
 const N = 25;
 
 var mode = "arithmetic";
+var current_loc;
 
 function toggle_mode() {
     if (mode == "arithmetic") {
@@ -52,6 +53,10 @@ function make_loc(x, y) {
     return { x: x, y: y, id: `${x},${y}` };
 }
 
+function is_current_loc(loc) {
+    return loc.x == current_loc.x && loc.y == current_loc.y;
+}
+
 function square_contents(loc) {
     const n = loc.x + loc.y;
 
@@ -72,7 +77,7 @@ function add_table_styles(table) {
 }
 
 function draw_normal_square(td, loc) {
-    const color = "white";
+    const color = is_current_loc(loc) ? "cyan" : "white";
     td.style["background-color"] = color;
     td.style["font-size"] = "100%";
     td.innerHTML = square_contents(loc);
@@ -100,7 +105,7 @@ function redraw_board() {
 }
 
 function handle_square_click(loc) {
-    alert(loc);
+    current_loc = loc;
     redraw_board();
 }
 
@@ -136,5 +141,6 @@ function set_reset_handler() {
     reset_button.onclick = toggle;
 }
 
+current_loc = make_loc(5, 4);
 make_board();
 set_reset_handler();
