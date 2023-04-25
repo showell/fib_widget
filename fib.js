@@ -57,6 +57,24 @@ function is_current_loc(loc) {
     return loc.x == current_loc.x && loc.y == current_loc.y;
 }
 
+function is_x_axis_loc(loc) {
+    return loc.x == current_loc.x && loc.y == 0;
+}
+
+function is_y_axis_loc(loc) {
+    return loc.y == current_loc.y && loc.x == 0;
+}
+
+function get_location_color(loc) {
+    if (is_current_loc(loc)) {
+        return "cyan";
+    }
+    if (is_x_axis_loc(loc) || is_y_axis_loc(loc)) {
+        return "lightgreen";
+    }
+    return "white";
+}
+
 function square_contents(loc) {
     const n = loc.x + loc.y;
 
@@ -77,7 +95,7 @@ function add_table_styles(table) {
 }
 
 function draw_normal_square(td, loc) {
-    const color = is_current_loc(loc) ? "cyan" : "white";
+    const color = get_location_color(loc);
     td.style["background-color"] = color;
     td.style["font-size"] = "100%";
     td.innerHTML = square_contents(loc);
