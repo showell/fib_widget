@@ -1,4 +1,5 @@
-const N = 10;
+const N = 12;
+const M = 20;
 
 var mode = "arithmetic";
 var current_loc;
@@ -139,16 +140,16 @@ function draw_normal_square(td, loc) {
 function make_cell(id) {
     const td = document.createElement("td");
     td.id = id;
-    td.style.height = "40px";
-    td.style.width = "40px";
+    td.style.height = "30px";
+    td.style.width = "55px";
     td.style.border = "1px solid blue";
     td.style["text-align"] = "center";
     return td;
 }
 
 function redraw_board() {
-    for (var x = 0; x <= N; ++x) {
-        for (var y = 0; y <= N; ++y) {
+    for (var y = 0; y <= N; ++y) {
+        for (var x = 0; x <= M; ++x) {
             const id = `${x},${y}`;
             const td = document.getElementById(id);
             const loc = make_loc(x - offset.x, y - offset.y);
@@ -175,7 +176,7 @@ function make_board() {
     table.children = [];
     for (var y = N; y >= 0; --y) {
         const tr = document.createElement("tr");
-        for (var x = 0; x <= N; ++x) {
+        for (var x = 0; x <= M; ++x) {
             const id = `${x},${y}`;
             var td = make_cell(id);
             set_click_handler(td);
@@ -224,7 +225,7 @@ function decr_x() {
 
 function incr_x() {
     current_loc = make_loc(current_loc.x + 1, current_loc.y);
-    if (current_loc.x + offset.x > N) {
+    if (current_loc.x + offset.x > M) {
         offset.x -= 1;
     }
     redraw_board();
