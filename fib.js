@@ -166,7 +166,7 @@ function set_click_handler(td) {
 function make_board() {
     const table = document.getElementById("main_grid");
     table.children = [];
-    for (var y = 0; y <= N; ++y) {
+    for (var y = N; y >= 0; --y) {
         const tr = document.createElement("tr");
         for (var x = 0; x <= N; ++x) {
             const id = `${x},${y}`;
@@ -184,7 +184,7 @@ function toggle() {
     redraw_board();
 }
 
-function down() {
+function incr_y() {
     current_loc = make_loc(current_loc.x, current_loc.y + 1);
     if (current_loc.y + offset.y > N) {
         offset.y -= 1;
@@ -192,7 +192,7 @@ function down() {
     redraw_board();
 }
 
-function up() {
+function decr_y() {
     current_loc = make_loc(current_loc.x, current_loc.y - 1);
     if (current_loc.y + offset.y < 0) {
         offset.y += 1;
@@ -200,7 +200,7 @@ function up() {
     redraw_board();
 }
 
-function left() {
+function decr_x() {
     current_loc = make_loc(current_loc.x - 1, current_loc.y);
     if (current_loc.x + offset.x < 0) {
         offset.x += 1;
@@ -208,7 +208,7 @@ function left() {
     redraw_board();
 }
 
-function right() {
+function incr_x() {
     current_loc = make_loc(current_loc.x + 1, current_loc.y);
     if (current_loc.x + offset.x > N) {
         offset.x -= 1;
@@ -229,22 +229,22 @@ function set_keyboard_handler() {
         }
         if (e.key == "ArrowDown") {
             e.preventDefault();
-            down();
+            decr_y();
             return;
         }
         if (e.key == "ArrowUp") {
             e.preventDefault();
-            up();
+            incr_y();
             return;
         }
         if (e.key == "ArrowLeft") {
             e.preventDefault();
-            left();
+            decr_x();
             return;
         }
         if (e.key == "ArrowRight") {
             e.preventDefault();
-            right();
+            incr_x();
             return;
         }
     });
