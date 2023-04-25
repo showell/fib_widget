@@ -95,6 +95,10 @@ function is_origin(loc) {
     return loc.x == 0 && loc.y == 0;
 }
 
+function is_diagonal(loc) {
+    return loc.x == loc.y || loc.x == -loc.y;
+}
+
 function get_location_color(loc) {
     if (is_current_loc(loc)) {
         return "cyan";
@@ -104,6 +108,9 @@ function get_location_color(loc) {
     }
     if (is_origin(loc)) {
         return "indianred";
+    }
+    if (is_diagonal(loc)) {
+        return "antiquewhite";
     }
     if (is_axis_loc(loc)) {
         return "lightcoral";
