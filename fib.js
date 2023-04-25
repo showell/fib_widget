@@ -1,5 +1,5 @@
-const N = 12;
-const M = 20;
+const N = 15;
+const M = 15;
 
 var mode = "arithmetic";
 var current_loc;
