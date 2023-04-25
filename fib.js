@@ -60,8 +60,8 @@ function fib(n) {
     const br = calc_fib(n + 1);
     return `
 <table style="text-align: right; width: 100%">
-<tr><td>${tl}</td><td>${tr}</td></tr>
-<tr><td>${bl}</td><td>${br}</td></tr>
+<tr><td style="width: 50%">${tl}</td><td>${tr}</td></tr>
+<tr><td style="width: 50%">${bl}</td><td>${br}</td></tr>
 </table>
 `;
 }
