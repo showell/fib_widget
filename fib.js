@@ -73,7 +73,7 @@ function is_current_loc(loc) {
     return is_current(0, 0);
 }
 
-function is_x_axis_loc(loc) {
+function is_x_intercept_loc(loc) {
     function is_current(dx, dy) {
         return loc.x == current_loc.x + dx && loc.y == dy;
     }
@@ -88,7 +88,7 @@ function is_x_axis_loc(loc) {
     return is_current(0, 0);
 }
 
-function is_y_axis_loc(loc) {
+function is_y_intercept_loc(loc) {
     function is_current(dx, dy) {
         return loc.x == dx && loc.y == current_loc.y + dy;
     }
@@ -103,16 +103,26 @@ function is_y_axis_loc(loc) {
     return is_current(0, 0);
 }
 
+function is_intercept_loc(loc) {
+    return is_x_intercept_loc(loc) || is_y_intercept_loc(loc);
+}
+
 function is_axis_loc(loc) {
-    return is_x_axis_loc(loc) || is_y_axis_loc(loc);
+    if (mode == "fib") {
+        return loc.x == 0 || loc.x == 1 || loc.y == 0 || loc.y == 1;
+    }
+    return loc.x == 0 || loc.y == 0;
 }
 
 function get_location_color(loc) {
     if (is_current_loc(loc)) {
         return "cyan";
     }
-    if (is_axis_loc(loc)) {
+    if (is_intercept_loc(loc)) {
         return "lightblue";
+    }
+    if (is_axis_loc(loc)) {
+        return "lightcoral";
     }
     return "white";
 }
