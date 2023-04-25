@@ -1,4 +1,4 @@
-const N = 11;
+const N = 10;
 
 var mode = "fib";
 var current_loc;
@@ -150,8 +150,8 @@ function make_cell(loc) {
 }
 
 function redraw_board() {
-    for (var x = 0; x < N; ++x) {
-        for (var y = 0; y < N; ++y) {
+    for (var x = 0; x <= N; ++x) {
+        for (var y = 0; y <= N; ++y) {
             const loc = make_loc(x, y);
             const td = document.getElementById(loc.id);
             draw_normal_square(td, loc);
@@ -173,9 +173,9 @@ function set_click_handler(td, loc) {
 function make_board() {
     const table = document.getElementById("main_grid");
     table.children = [];
-    for (var y = 0; y < N; ++y) {
+    for (var y = 0; y <= N; ++y) {
         const tr = document.createElement("tr");
-        for (var x = 0; x < N; ++x) {
+        for (var x = 0; x <= N; ++x) {
             const loc = make_loc(x, y);
             var td = make_cell(loc);
             set_click_handler(td, loc);
@@ -191,6 +191,20 @@ function toggle() {
     redraw_board();
 }
 
+function down() {
+    if (current_loc.y < N - 1) {
+        current_loc = make_loc(current_loc.x, current_loc.y + 1);
+        redraw_board();
+    }
+}
+
+function up() {
+    if (current_loc.y > 0) {
+        current_loc = make_loc(current_loc.x, current_loc.y - 1);
+        redraw_board();
+    }
+}
+
 function set_reset_handler() {
     const reset_button = document.getElementById("toggle");
     reset_button.onclick = toggle;
@@ -200,6 +214,14 @@ function set_keyboard_handler() {
     document.addEventListener("keydown", e => {
         if (e.key == "t" || e.key == " ") {
             toggle();
+        }
+        if (e.key == "ArrowDown") {
+            e.preventDefault();
+            down();
+        }
+        if (e.key == "ArrowUp") {
+            e.preventDefault();
+            up();
         }
     });
 }
