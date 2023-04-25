@@ -103,11 +103,11 @@ function is_axis_loc(loc) {
 }
 
 function get_location_color(loc) {
-    if (is_axis_loc(loc)) {
-        return "lightblue";
-    }
     if (is_current_loc(loc)) {
         return "cyan";
+    }
+    if (is_axis_loc(loc)) {
+        return "lightblue";
     }
     return "white";
 }
@@ -196,6 +196,15 @@ function set_reset_handler() {
     reset_button.onclick = toggle;
 }
 
+function set_keyboard_handler() {
+    document.addEventListener("keydown", e => {
+        if (e.key == "t" || e.key == " ") {
+            toggle();
+        }
+    });
+}
+
 current_loc = make_loc(5, 4);
 make_board();
 set_reset_handler();
+set_keyboard_handler();
