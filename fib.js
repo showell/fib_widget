@@ -1,12 +1,14 @@
 const N = 25;
 
-var mode = "geometric";
+var mode = "arithmetic";
 
 function toggle_mode() {
-    if (mode == "geometric") {
+    if (mode == "arithmetic") {
+        mode = "geometric";
+    } else if (mode == "geometric") {
         mode = "fib";
     } else {
-        mode = "geometric";
+        mode = "arithmetic";
     }
 }
 
@@ -26,6 +28,10 @@ function fib(n) {
     const result = fib(n - 2) + fib(n - 1);
     fib_cache[n] = result;
     return result;
+}
+
+function arithmetic(n) {
+    return n;
 }
 
 function geometric(n) {
@@ -50,7 +56,10 @@ function coords_string(loc) {
     const y = y_coord(loc);
 
     const n = x + y;
-    if (mode == "geometric") {
+
+    if (mode == "arithmetic") {
+        return arithmetic(n);
+    } else if (mode == "geometric") {
         return geometric(n);
     } else {
         return fib(n);
