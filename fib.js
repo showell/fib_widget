@@ -1,4 +1,4 @@
-const N = 25;
+const N = 11;
 
 var mode = "fib";
 var current_loc;
