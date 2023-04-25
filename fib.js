@@ -1,7 +1,9 @@
 const N = 10;
 
-var mode = "fib";
+var mode = "arithmetic";
 var current_loc;
+
+const offset = { x: 0, y: 0 };
 
 function toggle_mode() {
     if (mode == "arithmetic") {
@@ -36,6 +38,9 @@ function calc_fib(n) {
     if (n == 0) {
         return 1;
     }
+    if (n < 0) {
+        return calc_fib(n + 2) - calc_fib(n + 1);
+    }
     if (fib_cache[n]) {
         return fib_cache[n];
     }
@@ -50,7 +55,7 @@ function fib(n) {
 }
 
 function make_loc(x, y) {
-    return { x: x, y: y, id: `${x},${y}` };
+    return { x: x, y: y };
 }
 
 function is_current_loc(loc) {
@@ -138,22 +143,22 @@ function draw_normal_square(td, loc) {
     td.innerHTML = square_contents(loc);
 }
 
-function make_cell(loc) {
+function make_cell(id) {
     const td = document.createElement("td");
-    td.id = loc.id;
+    td.id = id;
     td.style.height = "40px";
     td.style.width = "40px";
     td.style.border = "1px solid blue";
     td.style["text-align"] = "center";
-    draw_normal_square(td, loc, {});
     return td;
 }
 
 function redraw_board() {
     for (var x = 0; x <= N; ++x) {
         for (var y = 0; y <= N; ++y) {
-            const loc = make_loc(x, y);
-            const td = document.getElementById(loc.id);
+            const id = `${x},${y}`;
+            const td = document.getElementById(id);
+            const loc = make_loc(x - offset.x, y - offset.y);
             draw_normal_square(td, loc);
         }
     }
@@ -164,8 +169,10 @@ function handle_square_click(loc) {
     redraw_board();
 }
 
-function set_click_handler(td, loc) {
+function set_click_handler(td) {
     td.onclick = () => {
+        const [x, y] = td.id.split(",");
+        const loc = make_loc(x - offset.x, y - offset.y);
         handle_square_click(loc);
     };
 }
@@ -176,9 +183,9 @@ function make_board() {
     for (var y = 0; y <= N; ++y) {
         const tr = document.createElement("tr");
         for (var x = 0; x <= N; ++x) {
-            const loc = make_loc(x, y);
-            var td = make_cell(loc);
-            set_click_handler(td, loc);
+            const id = `${x},${y}`;
+            var td = make_cell(id);
+            set_click_handler(td);
             tr.appendChild(td);
         }
         table.appendChild(tr);
@@ -192,31 +199,35 @@ function toggle() {
 }
 
 function down() {
-    if (current_loc.y < N) {
-        current_loc = make_loc(current_loc.x, current_loc.y + 1);
-        redraw_board();
+    current_loc = make_loc(current_loc.x, current_loc.y + 1);
+    if (current_loc.y + offset.y > N) {
+        offset.y -= 1;
     }
+    redraw_board();
 }
 
 function up() {
-    if (current_loc.y > 0) {
-        current_loc = make_loc(current_loc.x, current_loc.y - 1);
-        redraw_board();
+    current_loc = make_loc(current_loc.x, current_loc.y - 1);
+    if (current_loc.y + offset.y < 0) {
+        offset.y += 1;
     }
+    redraw_board();
 }
 
 function left() {
-    if (current_loc.x > 0) {
-        current_loc = make_loc(current_loc.x - 1, current_loc.y);
-        redraw_board();
+    current_loc = make_loc(current_loc.x - 1, current_loc.y);
+    if (current_loc.x + offset.x < 0) {
+        offset.x += 1;
     }
+    redraw_board();
 }
 
 function right() {
-    if (current_loc.x < N) {
-        current_loc = make_loc(current_loc.x + 1, current_loc.y);
-        redraw_board();
+    current_loc = make_loc(current_loc.x + 1, current_loc.y);
+    if (current_loc.x + offset.x > N) {
+        offset.x -= 1;
     }
+    redraw_board();
 }
 
 function set_reset_handler() {
@@ -253,7 +264,8 @@ function set_keyboard_handler() {
     });
 }
 
-current_loc = make_loc(3, 2);
+current_loc = make_loc(0, 0);
 make_board();
+redraw_board();
 set_reset_handler();
 set_keyboard_handler();
