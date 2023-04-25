@@ -49,7 +49,7 @@ function fib(n) {
 }
 
 function make_loc(x, y) {
-    return {x : x, y: y, id: `${x},${y}`};
+    return { x: x, y: y, id: `${x},${y}` };
 }
 
 function square_contents(loc) {
