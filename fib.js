@@ -184,6 +184,13 @@ function toggle() {
     redraw_board();
 }
 
+function home() {
+    current_loc = make_loc(0, 0);
+    offset.x = 0;
+    offset.y = 0;
+    redraw_board();
+}
+
 function incr_y() {
     current_loc = make_loc(current_loc.x, current_loc.y + 1);
     if (current_loc.y + offset.y > N) {
@@ -225,6 +232,11 @@ function set_keyboard_handler() {
     document.addEventListener("keydown", (e) => {
         if (e.key == "t" || e.key == " ") {
             toggle();
+            return;
+        }
+        if (e.key == "Home") {
+            e.preventDefault();
+            home();
             return;
         }
         if (e.key == "ArrowDown") {
