@@ -35,10 +35,10 @@ function power2(n) {
 var fib_cache = {};
 
 function calc_fib(n) {
-    if (n == 1) {
+    if (n == 0) {
         return 0;
     }
-    if (n == 0) {
+    if (n == 1) {
         return 1;
     }
     if (n < 0) {
@@ -54,7 +54,16 @@ function calc_fib(n) {
 }
 
 function fib(n) {
-    return `${calc_fib(n)}`;
+    const tr = calc_fib(n);
+    const bl = tr;
+    const tl = calc_fib(n - 1);
+    const br = calc_fib(n + 1);
+    return `
+<table style="text-align: right; width: 100%">
+<tr><td>${tl}</td><td>${tr}</td></tr>
+<tr><td>${bl}</td><td>${br}</td></tr>
+</table>
+`;
 }
 
 function make_loc(x, y) {
@@ -62,48 +71,15 @@ function make_loc(x, y) {
 }
 
 function is_current_loc(loc) {
-    function is_current(dx, dy) {
-        return loc.x == current_loc.x + dx && loc.y == current_loc.y + dy;
-    }
-    if (mode == "fib") {
-        return (
-            is_current(0, 0) ||
-            is_current(0, 1) ||
-            is_current(1, 0) ||
-            is_current(1, 1)
-        );
-    }
-    return is_current(0, 0);
+    return loc.x == current_loc.x && loc.y == current_loc.y;
 }
 
 function is_x_intercept_loc(loc) {
-    function is_current(dx, dy) {
-        return loc.x == current_loc.x + dx && loc.y == dy;
-    }
-    if (mode == "fib") {
-        return (
-            is_current(0, 0) ||
-            is_current(0, 1) ||
-            is_current(1, 0) ||
-            is_current(1, 1)
-        );
-    }
-    return is_current(0, 0);
+    return loc.x == current_loc.x && loc.y == 0;
 }
 
 function is_y_intercept_loc(loc) {
-    function is_current(dx, dy) {
-        return loc.x == dx && loc.y == current_loc.y + dy;
-    }
-    if (mode == "fib") {
-        return (
-            is_current(0, 0) ||
-            is_current(0, 1) ||
-            is_current(1, 0) ||
-            is_current(1, 1)
-        );
-    }
-    return is_current(0, 0);
+    return loc.x == 0 && loc.y == current_loc.y;
 }
 
 function is_intercept_loc(loc) {
@@ -111,9 +87,6 @@ function is_intercept_loc(loc) {
 }
 
 function is_axis_loc(loc) {
-    if (mode == "fib") {
-        return loc.x == 0 || loc.x == 1 || loc.y == 0 || loc.y == 1;
-    }
     return loc.x == 0 || loc.y == 0;
 }
 
