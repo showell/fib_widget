@@ -266,6 +266,16 @@ function set_keyboard_handler() {
             incr_x();
             return;
         }
+        if (e.key == "\\") {
+            decr_x();
+            incr_y();
+            return;
+        }
+        if (e.key == "|") {
+            incr_x();
+            decr_y();
+            return;
+        }
     });
 }
 
