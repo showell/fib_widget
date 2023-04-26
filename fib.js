@@ -6,6 +6,21 @@ var current_loc;
 
 const offset = { x: 0, y: 0 };
 
+function show_mode() {
+    var title;
+    if (mode == "arithmetic") {
+        title = "Sums of integers";
+    } else if (mode == "geometric") {
+        title = "Geometric sequence";
+    } else if (mode == "power2") {
+        title = "Powers of 2";
+    } else {
+        title = "Fibonacci matrices";
+    }
+    const mode_span = document.getElementById("mode_title");
+    mode_span.innerText = title;
+}
+
 function toggle_mode() {
     if (mode == "arithmetic") {
         mode = "geometric";
@@ -16,6 +31,7 @@ function toggle_mode() {
     } else {
         mode = "arithmetic";
     }
+    show_mode();
 }
 
 function arithmetic(n) {
@@ -60,7 +76,7 @@ function fib(n) {
     const tl = calc_fib(n - 1);
     const br = calc_fib(n + 1);
     return `
-<table style="text-align: right; width: 100%">
+<table style="text-align: right; width: 100%; font-size: 50%; font-weight: bold">
 <tr><td style="width: 50%">${tl}</td><td>${tr}</td></tr>
 <tr><td style="width: 50%">${bl}</td><td>${br}</td></tr>
 </table>
@@ -288,6 +304,7 @@ function set_keyboard_handler() {
 }
 
 current_loc = make_loc(0, 0);
+show_mode();
 make_board();
 redraw_board();
 set_reset_handler();
