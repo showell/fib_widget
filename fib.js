@@ -120,7 +120,7 @@ function get_location_color(loc) {
         return "cyan";
     }
     if (is_intercept_loc(loc)) {
-        return "lightblue";
+        return "blueviolet";
     }
     if (is_origin(loc)) {
         return "indianred";
