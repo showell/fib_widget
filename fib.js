@@ -12,13 +12,11 @@ function createSignal(val) {
 }
 
 const [mode, setMode] = createSignal("arithmetic");
+const [currentLoc, setCurrentLoc] = createSignal();
+const [offset, setOffset] = createSignal({ x: 0, y: 0 });
 
 const N = 15;
 const M = 15;
-
-var current_loc;
-
-const offset = { x: 0, y: 0 };
 
 function run_effects() {
     show_mode();
@@ -110,15 +108,15 @@ function make_loc(x, y) {
 }
 
 function is_current_loc(loc) {
-    return loc.x == current_loc.x && loc.y == current_loc.y;
+    return loc.x == currentLoc().x && loc.y == currentLoc().y;
 }
 
 function is_x_intercept_loc(loc) {
-    return loc.x == current_loc.x && loc.y == 0;
+    return loc.x == currentLoc().x && loc.y == 0;
 }
 
 function is_y_intercept_loc(loc) {
-    return loc.x == 0 && loc.y == current_loc.y;
+    return loc.x == 0 && loc.y == currentLoc().y;
 }
 
 function is_intercept_loc(loc) {
@@ -197,21 +195,20 @@ function redraw_board() {
         for (var x = 0; x <= M; ++x) {
             const id = `${x},${y}`;
             const td = document.getElementById(id);
-            const loc = make_loc(x - offset.x, y - offset.y);
+            const loc = make_loc(x - offset().x, y - offset().y);
             draw_normal_square(td, loc);
         }
     }
 }
 
 function handle_square_click(loc) {
-    current_loc = loc;
-    redraw_board();
+    setCurrentLoc(loc);
 }
 
 function set_click_handler(td) {
     td.onclick = () => {
         const [x, y] = td.id.split(",");
-        const loc = make_loc(x - offset.x, y - offset.y);
+        const loc = make_loc(x - offset().x, y - offset().y);
         handle_square_click(loc);
     };
 }
@@ -233,42 +230,36 @@ function make_board() {
 }
 
 function home() {
-    current_loc = make_loc(0, 0);
-    offset.x = 0;
-    offset.y = 0;
-    redraw_board();
+    setOffset(make_loc(0, 0));
+    setCurrentLoc(make_loc(0, 0));
 }
 
 function incr_y() {
-    current_loc = make_loc(current_loc.x, current_loc.y + 1);
-    if (current_loc.y + offset.y > N) {
-        offset.y -= 1;
+    setCurrentLoc(make_loc(currentLoc().x, currentLoc().y + 1));
+    if (currentLoc().y + offset().y > N) {
+        setOffset(make_loc(offset().x, offset().y - 1));
     }
-    redraw_board();
 }
 
 function decr_y() {
-    current_loc = make_loc(current_loc.x, current_loc.y - 1);
-    if (current_loc.y + offset.y < 0) {
-        offset.y += 1;
+    setCurrentLoc(make_loc(currentLoc().x, currentLoc().y - 1));
+    if (currentLoc().y + offset().y < 0) {
+        setOffset(make_loc(offset().x, offset().y + 1));
     }
-    redraw_board();
 }
 
 function decr_x() {
-    current_loc = make_loc(current_loc.x - 1, current_loc.y);
-    if (current_loc.x + offset.x < 0) {
-        offset.x += 1;
+    setCurrentLoc(make_loc(currentLoc().x - 1, currentLoc().y));
+    if (currentLoc().x + offset().x < 0) {
+        setOffset(make_loc(offset().x + 1, offset().y));
     }
-    redraw_board();
 }
 
 function incr_x() {
-    current_loc = make_loc(current_loc.x + 1, current_loc.y);
-    if (current_loc.x + offset.x > M) {
-        offset.x -= 1;
+    setCurrentLoc(make_loc(currentLoc().x + 1, currentLoc().y));
+    if (currentLoc().x + offset().x > M) {
+        setOffset(make_loc(offset().x - 1, offset().y));
     }
-    redraw_board();
 }
 
 function set_toggle_handler() {
@@ -320,9 +311,7 @@ function set_keyboard_handler() {
     });
 }
 
-current_loc = make_loc(0, 0);
-show_mode();
 make_board();
-redraw_board();
+setCurrentLoc(make_loc(0, 0));
 set_toggle_handler();
 set_keyboard_handler();
