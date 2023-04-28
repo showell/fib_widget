@@ -58,14 +58,18 @@ function calc_fib(n) {
     if (n == 1) {
         return 1;
     }
-    if (n < 0) {
-        return calc_fib(n + 2) - calc_fib(n + 1);
-    }
     if (fib_cache[n]) {
         return fib_cache[n];
     }
 
-    const result = calc_fib(n - 2) + calc_fib(n - 1);
+    let result;
+
+    if (n < 0) {
+        result = calc_fib(n + 2) - calc_fib(n + 1);
+    } else {
+        result = calc_fib(n - 2) + calc_fib(n - 1);
+    }
+
     fib_cache[n] = result;
     return result;
 }
