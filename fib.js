@@ -270,6 +270,7 @@ function set_toggle_handler() {
 function set_keyboard_handler() {
     document.addEventListener("keydown", (e) => {
         if (e.key == "t" || e.key == " ") {
+            e.preventDefault();
             toggle_mode();
             return;
         }
