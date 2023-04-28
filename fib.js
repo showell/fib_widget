@@ -254,9 +254,9 @@ function incr_x() {
     redraw_board();
 }
 
-function set_reset_handler() {
-    const reset_button = document.getElementById("toggle");
-    reset_button.onclick = toggle;
+function set_toggle_handler() {
+    const toggle_button = document.getElementById("toggle");
+    toggle_button.onclick = toggle;
 }
 
 function set_keyboard_handler() {
@@ -307,5 +307,5 @@ current_loc = make_loc(0, 0);
 show_mode();
 make_board();
 redraw_board();
-set_reset_handler();
+set_toggle_handler();
 set_keyboard_handler();
