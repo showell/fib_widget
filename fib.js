@@ -1,18 +1,37 @@
+function createSignal(val) {
+    function read() {
+        return val;
+    }
+
+    function write(v) {
+        val = v;
+        run_effects();
+    }
+
+    return [read, write];
+}
+
+const [mode, setMode] = createSignal("arithmetic");
+
 const N = 15;
 const M = 15;
 
-var mode = "arithmetic";
 var current_loc;
 
 const offset = { x: 0, y: 0 };
 
+function run_effects() {
+    show_mode();
+    redraw_board();
+}
+
 function show_mode() {
     var title;
-    if (mode == "arithmetic") {
+    if (mode() == "arithmetic") {
         title = "Sums of integers";
-    } else if (mode == "geometric") {
+    } else if (mode() == "geometric") {
         title = "Geometric sequence";
-    } else if (mode == "power2") {
+    } else if (mode() == "power2") {
         title = "Powers of 2";
     } else {
         title = "Fibonacci matrices";
@@ -22,16 +41,15 @@ function show_mode() {
 }
 
 function toggle_mode() {
-    if (mode == "arithmetic") {
-        mode = "geometric";
-    } else if (mode == "geometric") {
-        mode = "power2";
-    } else if (mode == "power2") {
-        mode = "fib";
+    if (mode() == "arithmetic") {
+        setMode("geometric");
+    } else if (mode() == "geometric") {
+        setMode("power2");
+    } else if (mode() == "power2") {
+        setMode("fib");
     } else {
-        mode = "arithmetic";
+        setMode("arithmetic");
     }
-    show_mode();
 }
 
 function arithmetic(n) {
@@ -141,11 +159,11 @@ function get_location_color(loc) {
 function square_contents(loc) {
     const n = loc.x + loc.y;
 
-    if (mode == "arithmetic") {
+    if (mode() == "arithmetic") {
         return arithmetic(n);
-    } else if (mode == "geometric") {
+    } else if (mode() == "geometric") {
         return geometric(n);
-    } else if (mode == "power2") {
+    } else if (mode() == "power2") {
         return power2(n);
     } else {
         return fib(n);
@@ -214,11 +232,6 @@ function make_board() {
     add_table_styles(table);
 }
 
-function toggle() {
-    toggle_mode();
-    redraw_board();
-}
-
 function home() {
     current_loc = make_loc(0, 0);
     offset.x = 0;
@@ -260,13 +273,13 @@ function incr_x() {
 
 function set_toggle_handler() {
     const toggle_button = document.getElementById("toggle");
-    toggle_button.onclick = toggle;
+    toggle_button.onclick = toggle_mode;
 }
 
 function set_keyboard_handler() {
     document.addEventListener("keydown", (e) => {
         if (e.key == "t" || e.key == " ") {
-            toggle();
+            toggle_mode();
             return;
         }
         if (e.key == "Home") {
